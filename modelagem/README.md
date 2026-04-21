@@ -65,30 +65,29 @@ O esquema segue Kimball:
 psql -U postgres -d seu_banco -f modelagem/01_ddl_modelo_estrela.sql
 ```
 
-**Resultado esperado:** 8 tabelas vazias (apenas estrutura), prontas para receber dados no próximo passo.
+**Resultado esperado:** 8 tabelas vazias (apenas estrutura), prontas para receber dados.
 
-## Como comecar a modelagem agora
+---
 
-1. Execute o ETL de modelagem:
+## Próximos passos (ETL e Análise)
 
-```bash
-python modelagem/build_star_schema.py
-```
+Depois que terminar a modelagem, você vai precisar:
 
-2. O script gera os arquivos em `modelagem/output/`:
-- `dim_tempo.csv`
-- `dim_localidade.csv`
-- `dim_perfil_paciente.csv`
-- `dim_classificacao.csv`
-- `dim_sintomas.csv`
-- `dim_comorbidade.csv`
-- `dim_teste.csv`
-- `fato_notif_covid.csv`
+1. **Passo 4-6 do PDF: ETL (Carga de dados)**
+   - Popular DIM_TEMPO com série de datas
+   - Carregar dimensões a partir do CSV
+   - Carregar fato com joins e flags
+   - Resultado: tabelas com ~5M notificações
 
-3. Valide o grão da fato:
-- quantidade de linhas da `fato_notif_covid` deve ser igual ao total de notificacoes do CSV de origem.
+2. **Passo 7 do PDF: Validação**
+   - Conferir integridade das FKs
+   - Conferir cardinalidades
+   - Conferir contagem bate com staging
 
-4. Valide integridade basica:
-- nenhuma FK principal da fato deve ficar nula (`sk_local`, `sk_perfil`, `sk_class`, `sk_sint`, `sk_como`, `sk_teste`).
+3. **Passo 11 do PDF: Análise (Queries OLAP)**
+   - Casos por município/mês
+   - Letalidade por faixa etária
+   - Sintomas mais frequentes
+   - Etc.
 
-5. Se quiser levar para banco relacional, use o DDL em `modelagem/ddl_star_schema.sql`.
+**Por enquanto você só fez a Modelagem (DDL). Pronto!**
