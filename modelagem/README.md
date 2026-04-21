@@ -40,6 +40,33 @@ No modelo estrela, essa inteligencia sai da interface e vai para o ETL/modelagem
 - Se o objetivo for demonstracao rapida: CSV direto atende.
 - Se o objetivo for BI evolutivo (mais indicadores, comparacoes historicas e confiabilidade): modelagem estrela compensa.
 
+---
+
+## Fase 1: Modelagem (DDL)
+
+A modelagem é a definição das estruturas (tabelas, colunas, tipos, relacionamentos).
+
+Arquivo: `modelagem/01_ddl_modelo_estrela.sql`
+
+Este script cria 8 tabelas conforme seu esquema:
+- 7 dimensões: tempo, localidade, perfil_paciente, classificacao, sintomas, comorbidade, teste
+- 1 fato: notif_covid (grão = 1 notificação)
+
+O esquema segue rigorosamente Kimball:
+1. Surrogate keys (SK) em cada dimensão
+2. Role-playing: 6 FKs de tempo na fato (notificação, cadastro, diagnóstico, coleta, encerramento, óbito)
+3. Junk dimensions: sintomas e comorbidade consolidam flags booleanas
+4. Known members: SK -1 = "Desconhecido" em toda dimensão (evita NULLs nas FKs)
+5. Medidas na fato: qtd, flags (confirmado, obito, internado, cura), idade, latências
+
+### Para executar (PostgreSQL):
+
+```bash
+psql -U postgres -d seu_banco -f modelagem/01_ddl_modelo_estrela.sql
+```
+
+**Resultado esperado:** 8 tabelas vazias (apenas estrutura), prontas para receber dados no próximo passo.
+
 ## Como comecar a modelagem agora
 
 1. Execute o ETL de modelagem:
