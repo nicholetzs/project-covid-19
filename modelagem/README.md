@@ -39,3 +39,29 @@ No modelo estrela, essa inteligencia sai da interface e vai para o ETL/modelagem
 
 - Se o objetivo for demonstracao rapida: CSV direto atende.
 - Se o objetivo for BI evolutivo (mais indicadores, comparacoes historicas e confiabilidade): modelagem estrela compensa.
+
+## Como comecar a modelagem agora
+
+1. Execute o ETL de modelagem:
+
+```bash
+python modelagem/build_star_schema.py
+```
+
+2. O script gera os arquivos em `modelagem/output/`:
+- `dim_tempo.csv`
+- `dim_localidade.csv`
+- `dim_perfil_paciente.csv`
+- `dim_classificacao.csv`
+- `dim_sintomas.csv`
+- `dim_comorbidade.csv`
+- `dim_teste.csv`
+- `fato_notif_covid.csv`
+
+3. Valide o grão da fato:
+- quantidade de linhas da `fato_notif_covid` deve ser igual ao total de notificacoes do CSV de origem.
+
+4. Valide integridade basica:
+- nenhuma FK principal da fato deve ficar nula (`sk_local`, `sk_perfil`, `sk_class`, `sk_sint`, `sk_como`, `sk_teste`).
+
+5. Se quiser levar para banco relacional, use o DDL em `modelagem/ddl_star_schema.sql`.
