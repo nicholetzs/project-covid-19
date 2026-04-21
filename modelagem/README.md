@@ -48,11 +48,11 @@ A modelagem é a definição das estruturas (tabelas, colunas, tipos, relacionam
 
 Arquivo: `modelagem/01_ddl_modelo_estrela.sql`
 
-Este script cria 8 tabelas conforme seu esquema:
+Este script cria 8 tabelas conforme o esquema:
 - 7 dimensões: tempo, localidade, perfil_paciente, classificacao, sintomas, comorbidade, teste
 - 1 fato: notif_covid (grão = 1 notificação)
 
-O esquema segue rigorosamente Kimball:
+O esquema segue Kimball:
 1. Surrogate keys (SK) em cada dimensão
 2. Role-playing: 6 FKs de tempo na fato (notificação, cadastro, diagnóstico, coleta, encerramento, óbito)
 3. Junk dimensions: sintomas e comorbidade consolidam flags booleanas
