@@ -2,7 +2,7 @@ apenas anotações
 
 A primeira pasta do KDD é uma análise de dados simples, sem normalização ou limpeza de dados.. apenas extração de informações com visualização SEM MODELAGEM DOS DADOS no streamlit, o que tem suas implicações.
 
-basicamnte:
+basicamente:
 
 1. Dados brutos
 CSV original, sujo e grande.
